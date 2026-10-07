@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/routes/app_routes.dart'; 
 
 class InicioScreen extends StatelessWidget {
   const InicioScreen({super.key});
@@ -82,7 +83,7 @@ class InicioScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // NAVEGACIÓN: Va a la pantalla de elección de modo
-                      // Navigator.pushNamed(context, AppRoutes.modoAprendizaje);
+                      Navigator.pushNamed(context, AppRoutes.modoAprendizaje);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
