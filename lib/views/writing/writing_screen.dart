@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 import '../../core/theme/app_colors.dart';
-import 'barra_superior.dart';
-import 'respuesta_screen.dart';
+import 'answer_screen.dart';
 
-class EscribirScreen extends StatefulWidget {
-  const EscribirScreen({super.key});
+class WritingScreen extends StatefulWidget {
+  const WritingScreen({super.key});
 
   @override
-  State<EscribirScreen> createState() => _EscribirScreenState();
+  State<WritingScreen> createState() => _WritingScreenState();
 }
 
-class _EscribirScreenState extends State<EscribirScreen> {
+class _WritingScreenState extends State<WritingScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -27,7 +27,7 @@ class _EscribirScreenState extends State<EscribirScreen> {
     // Va a la pantalla de respuesta pasando la pregunta escrita
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => RespuestaScreen(pregunta: pregunta)),
+      MaterialPageRoute(builder: (_) => AnswerScreen(pregunta: pregunta)),
     );
   }
 
@@ -35,26 +35,9 @@ class _EscribirScreenState extends State<EscribirScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const BarraSuperior(titulo: 'Escribir a Qantu'),
-            Expanded(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(20),
-                    child: _buildFormulario(textTheme),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return QantuPageLayout(
+      title: 'Escribir a Qantu',
+      child: _buildFormulario(textTheme),
     );
   }
 

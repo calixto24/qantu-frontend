@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:qantu_frontend/views/widgets/custom_app_bar.dart';
+import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 import 'package:record/record.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -142,67 +144,13 @@ class _ListeningScreenState extends State<ListeningScreen>
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500),
-            child: Column(
-              children: [
-                // HEADER
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEBE6DF),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: AppColors.neutral,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Hablar con Qantu',
-                        style: textTheme.headlineMedium?.copyWith(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // CONTENIDO
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 16,
-                      ),
-                      child: isProcessing
-                          ? _buildProcessingCard(textTheme)
-                          : _buildListeningCard(textTheme),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return QantuPageLayout(
+      title: 'Hablar con Qantu',
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Center(
+        child: isProcessing
+            ? _buildProcessingCard(textTheme)
+            : _buildListeningCard(textTheme),
       ),
     );
   }

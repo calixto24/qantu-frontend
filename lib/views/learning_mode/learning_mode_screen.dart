@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../listening/listening_screen.dart';
-
-//import '../../core/routes/app_routes.dart';
+import '../../core/routes/app_routes.dart';
 
 class LearningModeScreen extends StatelessWidget {
   const LearningModeScreen({super.key});
@@ -12,136 +11,73 @@ class LearningModeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          // CONTENEDOR RESPONSIVO
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500),
-            child: Column(
-              children: [
-                // 1. HEADER (Botón atrás y Título)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: const Color(
-                              0xFFEBE6DF,
-                            ), // Color crema oscuro del botón
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: AppColors.neutral,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Modo de aprendizaje',
-                        style: textTheme.headlineMedium?.copyWith(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // 2. CONTENIDO PRINCIPAL SCROLLABLE
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 8,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Elige cómo aprender hoy',
-                          style: textTheme.headlineLarge?.copyWith(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '¿Prefieres hablar con tu voz o escribir en la pantalla? Escoge tu forma favorita.',
-                          style: textTheme.bodyLarge?.copyWith(
-                            color: AppColors.neutral.withOpacity(0.7),
-                            height: 1.4,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-
-                        // 3. TARJETA 1: HABLAR CON QANTU
-                        _LearningCard(
-                          textTheme: textTheme,
-                          badgeText: 'Recomendado para 1° y 2° grado',
-                          badgeIcon: Icons.star,
-                          badgeBgColor: const Color(0xFFF9E3DE),
-                          badgeTextColor: const Color(0xFFA12C1A),
-                          mainIcon: Icons.mic_none_rounded,
-                          iconBoxColor: AppColors.primary,
-                          title: 'Hablar con Qantu',
-                          description: 'Presiona el botón rojo y habla sobre tu tarea, cuento o lección del día.',
-                          showDots: true,
-                          buttonText: 'Usar mi Voz',
-                          buttonMainIcon: Icons.record_voice_over_rounded,
-                          buttonBgColor: const Color(0xFFB23415),
-                          onTap: () {
-                            //AQUÍ COLOCAS LA NAVEGACIÓN:
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ListeningScreen(),
-                              ),
-                            );
-                          },
-                        ),
-
-                        // 4. TARJETA 2: ESCRIBIR A QANTU
-                        _LearningCard(
-                          textTheme: textTheme,
-                          badgeText: 'Para 3° a 6° grado',
-                          badgeIcon: Icons.school,
-                          badgeBgColor: const Color(0xFFFCE6CF),
-                          badgeTextColor: const Color(0xFF914C14),
-                          mainIcon: Icons.keyboard_alt_outlined,
-                          iconBoxColor: AppColors.secondary,
-                          title: 'Escribir a Qantu',
-                          subtitle: 'Escribir a Qantu',
-                          description: 'Usa el teclado táctil para escribir preguntas, oraciones o resolver preguntas con calma.',
-                          showDots: false,
-                          buttonText: 'Escribir',
-                          buttonMainIcon: Icons.edit_note_rounded,
-                          buttonBgColor: const Color(0xFF9E5616),
-                          onTap: () {
-                            // Lógica para ir a la pantalla de texto
-                            // Navigator.pushNamed(context, AppRoutes.textoEntrada);
-                          },
-                        ),
-
-                        const SizedBox(height: 32),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+    return QantuPageLayout(
+      title: 'Modo de aprendizaje',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Elige cómo aprender hoy',
+            style: textTheme.headlineLarge?.copyWith(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ),
+
+          const SizedBox(height: 8),
+
+          Text(
+            '¿Prefieres hablar con tu voz o escribir en la pantalla? Escoge tu forma favorita.',
+            style: textTheme.bodyLarge?.copyWith(
+              color: AppColors.neutral.withOpacity(0.7),
+              height: 1.4,
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          _LearningCard(
+            textTheme: textTheme,
+            badgeText: 'Recomendado para 1° y 2° grado',
+            badgeIcon: Icons.star,
+            badgeBgColor: const Color(0xFFF9E3DE),
+            badgeTextColor: const Color(0xFFA12C1A),
+            mainIcon: Icons.mic_none_rounded,
+            iconBoxColor: AppColors.primary,
+            title: 'Hablar con Qantu',
+            description: 'Presiona el botón rojo y habla sobre tu tarea, cuento o lección del día.',
+            showDots: true,
+            buttonText: 'Usar mi Voz',
+            buttonMainIcon: Icons.record_voice_over_rounded,
+            buttonBgColor: const Color(0xFFB23415),
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.listening);
+            },
+          ),
+
+          // 4. TARJETA 2: ESCRIBIR A QANTU
+          _LearningCard(
+            textTheme: textTheme,
+            badgeText: 'Para 3° a 6° grado',
+            badgeIcon: Icons.school,
+            badgeBgColor: const Color(0xFFFCE6CF),
+            badgeTextColor: const Color(0xFF914C14),
+            mainIcon: Icons.keyboard_alt_outlined,
+            iconBoxColor: AppColors.secondary,
+            title: 'Escribir a Qantu',
+            subtitle: 'Escribir a Qantu',
+            description: 'Usa el teclado táctil para escribir preguntas, oraciones o resolver preguntas con calma.',
+            showDots: false,
+            buttonText: 'Escribir',
+            buttonMainIcon: Icons.edit_note_rounded,
+            buttonBgColor: const Color(0xFF9E5616),
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.writing);
+            },
+          ),
+
+          const SizedBox(height: 32),
+        ],
       ),
     );
   }

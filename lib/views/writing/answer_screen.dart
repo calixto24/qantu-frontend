@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../services/qantu_service.dart';
-import 'barra_superior.dart';
 
-class RespuestaScreen extends StatefulWidget {
+class AnswerScreen extends StatefulWidget {
   final String pregunta;
 
-  const RespuestaScreen({super.key, required this.pregunta});
+  const AnswerScreen({super.key, required this.pregunta});
 
   @override
-  State<RespuestaScreen> createState() => _RespuestaScreenState();
+  State<AnswerScreen> createState() => _AnswerScreenState();
 }
 
-class _RespuestaScreenState extends State<RespuestaScreen> {
+class _AnswerScreenState extends State<AnswerScreen> {
   // Hoy usa el servicio simulado. Cuando el backend este listo,
   // solo se cambia por ApiQantuService().
   final QantuService _service = MockQantuService();
@@ -31,34 +31,21 @@ class _RespuestaScreenState extends State<RespuestaScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const BarraSuperior(titulo: 'Escribir a Qantu'),
-            Expanded(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _buildPregunta(textTheme),
-                        const SizedBox(height: 16),
-                        _buildRespuesta(textTheme),
-                        const SizedBox(height: 20),
-                        _buildBotones(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+    return QantuPageLayout(
+      title: 'Respuesta de Qantu',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildPregunta(textTheme),
+
+          const SizedBox(height: 16),
+
+          _buildRespuesta(textTheme),
+
+          const SizedBox(height: 20),
+
+          _buildBotones(),
+        ],
       ),
     );
   }
