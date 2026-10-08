@@ -70,10 +70,10 @@ class _AnswerScreenState extends State<AnswerScreen> {
             child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.edit, size: 12, color: AppColors.primary),
+                Icon(Icons.mic, size: 12, color: AppColors.primary),
                 SizedBox(width: 4),
                 Text(
-                  'Preguntaste',
+                  'Dijiste por voz',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,

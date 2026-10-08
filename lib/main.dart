@@ -22,6 +22,7 @@ class QantuApp extends StatelessWidget {
 
       // Mapa de rutas navegables
       routes: AppRoutes.getRoutes(),
+      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }

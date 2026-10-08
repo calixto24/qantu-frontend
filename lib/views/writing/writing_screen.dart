@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 import '../../core/theme/app_colors.dart';
-import 'answer_screen.dart';
+import '../answer/answer_screen.dart';
 
 class WritingScreen extends StatefulWidget {
   const WritingScreen({super.key});
