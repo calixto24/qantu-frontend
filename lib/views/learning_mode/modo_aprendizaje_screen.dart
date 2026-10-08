@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../listen/escuchando_screen.dart';
 //import '../../core/routes/app_routes.dart'; 
 
 class ModoAprendizajeScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ModoAprendizajeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                   child: Row(
-                    children: [
+                   children: [
                       InkWell(
                         onTap: () => Navigator.pop(context),
                         borderRadius: BorderRadius.circular(12),
@@ -87,12 +88,15 @@ class ModoAprendizajeScreen extends StatelessWidget {
                           buttonMainIcon: Icons.record_voice_over_rounded,
                           buttonBgColor: const Color(0xFFB23415),
                           onTap: () {
-                            // Lógica para ir a la pantalla de voz
-                            // Navigator.pushNamed(context, AppRoutes.vozEscuchando);
-                          },
-                        ),
-
-                        const SizedBox(height: 20),
+                            //AQUÍ COLOCAS LA NAVEGACIÓN:
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EscuchandoScreen(),
+                              ),
+                              );
+                              },
+                              ),
 
                         // 4. TARJETA 2: ESCRIBIR A QANTU
                         _LearningCard(
