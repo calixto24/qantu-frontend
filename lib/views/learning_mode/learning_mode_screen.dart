@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
-import '../listen/escuchando_screen.dart';
-//import '../../core/routes/app_routes.dart'; 
 
-class ModoAprendizajeScreen extends StatelessWidget {
-  const ModoAprendizajeScreen({super.key});
+import '../../core/theme/app_colors.dart';
+import '../listening/listening_screen.dart';
+
+//import '../../core/routes/app_routes.dart';
+
+class LearningModeScreen extends StatelessWidget {
+  const LearningModeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +23,27 @@ class ModoAprendizajeScreen extends StatelessWidget {
               children: [
                 // 1. HEADER (Botón atrás y Título)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   child: Row(
-                   children: [
+                    children: [
                       InkWell(
                         onTap: () => Navigator.pop(context),
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFEBE6DF), // Color crema oscuro del botón
+                            color: const Color(
+                              0xFFEBE6DF,
+                            ), // Color crema oscuro del botón
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(Icons.arrow_back, color: AppColors.neutral),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: AppColors.neutral,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -51,7 +61,10 @@ class ModoAprendizajeScreen extends StatelessWidget {
                 // 2. CONTENIDO PRINCIPAL SCROLLABLE
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -90,13 +103,13 @@ class ModoAprendizajeScreen extends StatelessWidget {
                           onTap: () {
                             //AQUÍ COLOCAS LA NAVEGACIÓN:
                             Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const EscuchandoScreen(),
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ListeningScreen(),
                               ),
-                              );
-                              },
-                              ),
+                            );
+                          },
+                        ),
 
                         // 4. TARJETA 2: ESCRIBIR A QANTU
                         _LearningCard(
@@ -113,14 +126,13 @@ class ModoAprendizajeScreen extends StatelessWidget {
                           showDots: false,
                           buttonText: 'Escribir',
                           buttonMainIcon: Icons.edit_note_rounded,
-                          buttonBgColor: const Color(0xFF9E5616), 
+                          buttonBgColor: const Color(0xFF9E5616),
                           onTap: () {
                             // Lógica para ir a la pantalla de texto
                             // Navigator.pushNamed(context, AppRoutes.textoEntrada);
-
                           },
                         ),
-                        
+
                         const SizedBox(height: 32),
                       ],
                     ),
@@ -135,7 +147,7 @@ class ModoAprendizajeScreen extends StatelessWidget {
   }
 }
 
-// WIDGET REUTILIZABLE PARA LAS TARJETAS 
+// WIDGET REUTILIZABLE PARA LAS TARJETAS
 class _LearningCard extends StatelessWidget {
   final TextTheme textTheme;
   final String badgeText;
@@ -191,7 +203,9 @@ class _LearningCard extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(bottomRight: Radius.circular(20)),
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(20),
+              ),
               child: Container(
                 width: 120,
                 height: 120,
@@ -203,15 +217,18 @@ class _LearningCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. BADGE 
+                // 1. BADGE
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: badgeBgColor,
                     borderRadius: BorderRadius.circular(20),
@@ -266,7 +283,7 @@ class _LearningCard extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ]
+                          ],
                         ],
                       ),
                     ),
@@ -282,7 +299,7 @@ class _LearningCard extends StatelessWidget {
                     height: 1.4,
                   ),
                 ),
-                
+
                 if (showDots) ...[
                   const SizedBox(height: 16),
                   Row(
@@ -291,7 +308,7 @@ class _LearningCard extends StatelessWidget {
                         width: 20,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFC8E6C9), 
+                          color: const Color(0xFFC8E6C9),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -300,7 +317,7 @@ class _LearningCard extends StatelessWidget {
                         width: 16,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFBE8D8), 
+                          color: const Color(0xFFFBE8D8),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

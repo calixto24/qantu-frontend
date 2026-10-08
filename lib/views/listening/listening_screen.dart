@@ -1,16 +1,18 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
+
 import '../../core/theme/app_colors.dart';
 
-class EscuchandoScreen extends StatefulWidget {
-  const EscuchandoScreen({super.key});
+class ListeningScreen extends StatefulWidget {
+  const ListeningScreen({super.key});
 
   @override
-  State<EscuchandoScreen> createState() => _EscuchandoScreenState();
+  State<ListeningScreen> createState() => _ListeningScreenState();
 }
 
-class _EscuchandoScreenState extends State<EscuchandoScreen>
+class _ListeningScreenState extends State<ListeningScreen>
     with SingleTickerProviderStateMixin {
   final AudioRecorder _audioRecorder = AudioRecorder();
   StreamSubscription<Amplitude>? _amplitudeSubscription;
@@ -23,7 +25,19 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
   double _currentDb = -160.0;
 
   final List<double> _baseHeights = [
-    12.0, 20.0, 28.0, 18.0, 36.0, 26.0, 40.0, 26.0, 36.0, 18.0, 28.0, 20.0, 12.0
+    12.0,
+    20.0,
+    28.0,
+    18.0,
+    36.0,
+    26.0,
+    40.0,
+    26.0,
+    36.0,
+    18.0,
+    28.0,
+    20.0,
+    12.0,
   ];
 
   @override
@@ -63,12 +77,12 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
         _amplitudeSubscription = _audioRecorder
             .onAmplitudeChanged(const Duration(milliseconds: 40))
             .listen((amplitude) {
-          if (mounted) {
-            setState(() {
-              _currentDb = amplitude.current;
+              if (mounted) {
+                setState(() {
+                  _currentDb = amplitude.current;
+                });
+              }
             });
-          }
-        });
       }
     } catch (e) {
       debugPrint('Error al activar el micrófono: $e');
@@ -138,7 +152,10 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
               children: [
                 // HEADER
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   child: Row(
                     children: [
                       InkWell(
@@ -172,7 +189,10 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
                 Expanded(
                   child: Center(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                       child: isProcessing
                           ? _buildProcessingCard(textTheme)
                           : _buildListeningCard(textTheme),
@@ -401,7 +421,9 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
                         strokeWidth: 7,
                         strokeCap: StrokeCap.round,
                         backgroundColor: const Color(0xFFF3ECE6),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF28132)),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color(0xFFF28132),
+                        ),
                       ),
                     ),
                   ],
@@ -419,7 +441,9 @@ class _EscuchandoScreenState extends State<EscuchandoScreen>
                       value: currentVal,
                       minHeight: 12,
                       backgroundColor: const Color(0xFFF3ECE6),
-                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF28132)),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFFF28132),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),

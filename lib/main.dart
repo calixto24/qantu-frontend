@@ -18,7 +18,7 @@ class QantuApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
 
       // Pantalla inicial
-      initialRoute: AppRoutes.inicio,
+      initialRoute: AppRoutes.home,
 
       // Mapa de rutas navegables
       routes: AppRoutes.getRoutes(),
