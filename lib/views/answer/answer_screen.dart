@@ -75,9 +75,6 @@ class _AnswerScreenState extends State<AnswerScreen> {
             });
           }
         } else if (event == 'end') {
-          // Imprime en consola para depurar exacto qué está llegando en el evento 'end'
-          print("📩 Evento END recibido desde el backend: $data");
-
           final urlRecibida = data['audio_url'] as String?;
 
           if (mounted) {
@@ -87,10 +84,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
             });
 
             if (_audioUrl != null && _audioUrl!.isNotEmpty) {
-              print("🔊 Reproduciendo audio desde: $_audioUrl");
               _audioController.playFromUrl(_audioUrl!);
-            } else {
-              print("⚠️ No se recibió audio_url o vino vacío.");
             }
           }
         } else if (event == 'error') {

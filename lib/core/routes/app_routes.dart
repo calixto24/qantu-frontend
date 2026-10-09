@@ -22,7 +22,6 @@ class AppRoutes {
     };
   }
 
-  // Manejador de rutas con argumentos dinámicos
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     if (settings.name == answer) {
       String pregunta = 'Sin pregunta';

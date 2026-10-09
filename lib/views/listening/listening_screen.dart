@@ -6,6 +6,7 @@ import 'package:qantu_frontend/core/routes/app_routes.dart';
 import 'package:qantu_frontend/services/stt_service.dart';
 import 'package:qantu_frontend/views/listening/listening_card.dart';
 import 'package:qantu_frontend/views/listening/processing_card.dart';
+import 'package:qantu_frontend/views/widgets/audio_error_dialog.dart';
 import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 import 'package:record/record.dart';
 
@@ -74,7 +75,7 @@ class _ListeningScreenState extends State<ListeningScreen> {
     await _ampSub?.cancel();
     setState(() {
       isListening = false;
-      isProcessing = true; // Mostrar la vista de procesamiento
+      isProcessing = true;
     });
 
     // Capturar bytes
@@ -97,15 +98,17 @@ class _ListeningScreenState extends State<ListeningScreen> {
 
     // Si falló o el audio vino vacío:
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'No se logró entender el audio. Intenta hablar de nuevo.',
-          ),
+      setState(() => isProcessing = false);
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => AudioErrorDialog(
+          onRetry: () {
+            _initMicrophone();
+          },
         ),
       );
-      setState(() => isProcessing = false);
-      _initMicrophone(); // Reiniciar micrófono limpiamente
     }
   }
 
