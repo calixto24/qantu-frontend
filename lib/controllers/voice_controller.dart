@@ -1,56 +1,58 @@
-import 'dart:async';
+import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:record/record.dart';
 
 class VoiceController {
-  final AudioRecorder _recorder = AudioRecorder();
+  final AudioRecorder _audioRecorder = AudioRecorder();
+  bool _isRecording = false;
+
+  bool get isRecording => _isRecording;
+
+  Stream<Amplitude> get onAmplitudeChanged =>
+      _audioRecorder.onAmplitudeChanged(const Duration(milliseconds: 100));
 
   Future<bool> start() async {
     try {
-      if (await _recorder.hasPermission()) {
-        // En Web usaremos AudioEncoder.opus o aacLc para garantizar compatibilidad
-        await _recorder.start(
-          const RecordConfig(
-            encoder: kIsWeb ? AudioEncoder.opus : AudioEncoder.pcm16bits,
-            sampleRate: 44100,
-          ),
+      if (await _audioRecorder.hasPermission()) {
+        await _audioRecorder.start(
+          const RecordConfig(encoder: AudioEncoder.opus),
           path: '',
         );
+        _isRecording = true;
         return true;
       }
       return false;
     } catch (e) {
-      debugPrint('Error al iniciar micrófono: $e');
+      print("Error al iniciar grabación: $e");
       return false;
     }
   }
 
   Future<Uint8List?> stopAndGetBytes() async {
     try {
-      final path = await _recorder.stop();
-      if (path == null || path.isEmpty) return null;
+      if (!_isRecording) return null;
 
-      if (path.startsWith('http') || path.startsWith('blob:')) {
+      // En record 5.x en Web, stop() devuelve la URL de tipo 'blob:http://...'
+      final path = await _audioRecorder.stop();
+      _isRecording = false;
+
+      if (path != null && path.isNotEmpty) {
+        // En Web, descargamos los bytes directamente desde la Blob URL generada por el navegador
         final response = await http.get(Uri.parse(path));
-        if (response.statusCode == 200 && response.bodyBytes.isNotEmpty) {
+        if (response.statusCode == 200) {
           return response.bodyBytes;
         }
-      } else {
-        final bytes = await http.readBytes(Uri.parse(path));
-        return bytes;
       }
+      return null;
     } catch (e) {
-      debugPrint('Error al detener grabación: $e');
+      print("Error al detener grabación: $e");
+      _isRecording = false;
+      return null;
     }
-    return null;
   }
 
-  Stream<Amplitude> get onAmplitudeChanged =>
-      _recorder.onAmplitudeChanged(const Duration(milliseconds: 50));
-
   void dispose() {
-    _recorder.dispose();
+    _audioRecorder.dispose();
   }
 }

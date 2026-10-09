@@ -32,8 +32,9 @@ class _ListeningScreenState extends State<ListeningScreen> {
   }
 
   Future<void> _initMicrophone() async {
-    // Cancelar suscripción previa si existía
+    // 1. Cancelar suscripción previa
     await _ampSub?.cancel();
+    _ampSub = null;
 
     final started = await _voiceController.start();
     if (started && mounted) {
@@ -41,7 +42,7 @@ class _ListeningScreenState extends State<ListeningScreen> {
         isListening = true;
       });
 
-      // IMPORTANTE: Volver a escuchar los cambios de decibelios para la animación
+      // 2. Escuchar la amplitud asegurando que sea un stream limpio
       _ampSub = _voiceController.onAmplitudeChanged.listen((amp) {
         if (mounted && isListening) {
           setState(() {
