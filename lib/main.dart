@@ -4,6 +4,9 @@ import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
 
 void main() {
+  // Desactiva la búsqueda/descarga de fuentes en la web
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const QantuApp());
 }
 
