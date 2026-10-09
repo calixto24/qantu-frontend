@@ -80,3 +80,7 @@ python -m http.server 8080 --directory build/web
 ```
 
 Abre el navegador y accede a la URL `http://localhost:8080/`.
+
+```
+Nota: Recuerda mantener ejecutando en paralelo el backend local en FastAPI/Uvicorn (http://localhost:8000) para el servicio de Ollama (LLM), Whisper (STT) y Piper (TTS).
+```
