@@ -61,3 +61,22 @@ Ejecuta el proyecto:
 ```bash
 flutter run -d chrome
 ```
+
+### Opción B: Compilación y Servidor Producción (100% Offline)
+
+Compilar los recursos web locales:
+
+```bash
+flutter clean
+flutter pub get
+flutter build web --release --no-web-resources-cdn
+```
+
+Levantar el servidor web estático local:
+Desde la raíz del proyecto, ejecuta el servidor HTTP de Python para servir la carpeta compilada (build/web):
+
+```bash
+python -m http.server 8080 --directory build/web
+```
+
+Abre el navegador y accede a la URL `http://localhost:8080/`.
