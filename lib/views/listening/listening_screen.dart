@@ -86,7 +86,11 @@ class _ListeningScreenState extends State<ListeningScreen> {
 
       if (mounted && text != null && text.trim().isNotEmpty) {
         // ÉXITO: Navegar a la pantalla de respuesta
-        Navigator.pushNamed(context, AppRoutes.answer, arguments: text);
+        Navigator.pushNamed(
+          context,
+          AppRoutes.answer,
+          arguments: {'pregunta': text, 'isVoice': true},
+        );
         return;
       }
     }
@@ -117,6 +121,9 @@ class _ListeningScreenState extends State<ListeningScreen> {
     return QantuPageLayout(
       title: 'Hablar con Qantu',
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      onBackPressed: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.learningMode);
+      },
       child: Center(
         child: isProcessing
             ? const ProcessingCard()

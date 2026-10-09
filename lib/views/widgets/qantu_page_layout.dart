@@ -6,6 +6,8 @@ class QantuPageLayout extends StatelessWidget {
   final Widget child;
   final double maxWidth;
   final EdgeInsets contentPadding;
+  final VoidCallback? onBackPressed;
+  final bool showBackButton;
 
   const QantuPageLayout({
     super.key,
@@ -16,6 +18,8 @@ class QantuPageLayout extends StatelessWidget {
       horizontal: 20,
       vertical: 8,
     ),
+    this.onBackPressed,
+    this.showBackButton = true,
   });
 
   @override
@@ -28,10 +32,13 @@ class QantuPageLayout extends StatelessWidget {
             Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: maxWidth),
-                child: CustomHeader(title: title),
+                child: CustomHeader(
+                  title: title,
+                  onBackPressed: onBackPressed,
+                  showBackButton: showBackButton,
+                ),
               ),
             ),
-
             Expanded(
               child: Center(
                 child: ConstrainedBox(

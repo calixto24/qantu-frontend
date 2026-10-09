@@ -25,9 +25,20 @@ class AppRoutes {
   // Manejador de rutas con argumentos dinámicos
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     if (settings.name == answer) {
-      final pregunta = settings.arguments as String? ?? 'Sin pregunta';
+      String pregunta = 'Sin pregunta';
+      bool isVoice = true;
+
+      if (settings.arguments is Map<String, dynamic>) {
+        final args = settings.arguments as Map<String, dynamic>;
+        pregunta = args['pregunta'] as String? ?? 'Sin pregunta';
+        isVoice = args['isVoice'] as bool? ?? true;
+      } else if (settings.arguments is String) {
+        pregunta = settings.arguments as String;
+      }
+
       return MaterialPageRoute(
-        builder: (context) => AnswerScreen(pregunta: pregunta),
+        builder: (context) =>
+            AnswerScreen(pregunta: pregunta, isVoice: isVoice),
       );
     }
     return null;

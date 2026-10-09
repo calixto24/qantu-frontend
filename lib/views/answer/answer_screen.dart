@@ -2,15 +2,17 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:qantu_frontend/controllers/audio_player_controller.dart'; // Ajusta la ruta a tu proyecto
+import 'package:qantu_frontend/controllers/audio_player_controller.dart';
+import 'package:qantu_frontend/core/routes/app_routes.dart';
 import 'package:qantu_frontend/core/theme/app_colors.dart';
 import 'package:qantu_frontend/services/websocket_service.dart';
 import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 class AnswerScreen extends StatefulWidget {
   final String pregunta;
+  final bool isVoice;
 
-  const AnswerScreen({super.key, required this.pregunta});
+  const AnswerScreen({super.key, required this.pregunta, this.isVoice = true});
 
   @override
   State<AnswerScreen> createState() => _AnswerScreenState();
@@ -24,7 +26,7 @@ class _AnswerScreenState extends State<AnswerScreen> {
   StreamSubscription? _playerStateSubscription;
 
   String _respuestaTexto = "";
-  String? _audioUrl; // Guarda la URL que envía el backend
+  String? _audioUrl;
   bool _estaPensando = true;
   bool _estaGenerando = false;
   bool _error = false;
@@ -145,6 +147,9 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
     return QantuPageLayout(
       title: 'Respuesta de Qantu',
+      onBackPressed: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.learningMode);
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -160,6 +165,8 @@ class _AnswerScreenState extends State<AnswerScreen> {
 
   // --- Mantenemos _buildPregunta ---
   Widget _buildPregunta(TextTheme textTheme) {
+    final isVoice = widget.isVoice;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -169,20 +176,25 @@ class _AnswerScreenState extends State<AnswerScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Chip/Badge dinámico
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: const Color(0xFFF8D5C4),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.mic, size: 12, color: AppColors.primary),
-                SizedBox(width: 4),
+                Icon(
+                  isVoice ? Icons.mic : Icons.edit_note_rounded,
+                  size: 14,
+                  color: AppColors.primary,
+                ),
+                const SizedBox(width: 4),
                 Text(
-                  'Dijiste por voz',
-                  style: TextStyle(
+                  isVoice ? 'Dijiste por voz' : 'Escribiste por teclado',
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primary,
@@ -338,18 +350,25 @@ class _AnswerScreenState extends State<AnswerScreen> {
   }
 
   Widget _buildBotones() {
+    final isVoice = widget.isVoice;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton.icon(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.keyboard_alt_outlined),
-          label: const Text(
-            'Escribir otra pregunta',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          onPressed: () {
+            Navigator.pushReplacementNamed(
+              context,
+              isVoice ? AppRoutes.listening : AppRoutes.writing,
+            );
+          },
+          icon: Icon(isVoice ? Icons.mic : Icons.keyboard_alt_outlined),
+          label: Text(
+            isVoice ? 'Volver a hablar' : 'Escribir otra pregunta',
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.secondary,
+            backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
@@ -359,14 +378,22 @@ class _AnswerScreenState extends State<AnswerScreen> {
           ),
         ),
         const SizedBox(height: 8),
+
         TextButton.icon(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.mic_none_rounded),
-          label: const Text(
-            'Volver a hablar',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          onPressed: () {
+            Navigator.pushReplacementNamed(
+              context,
+              isVoice ? AppRoutes.writing : AppRoutes.listening,
+            );
+          },
+          icon: Icon(
+            isVoice ? Icons.keyboard_alt_outlined : Icons.mic_none_rounded,
           ),
-          style: TextButton.styleFrom(foregroundColor: const Color(0xFF2E7D32)),
+          label: Text(
+            isVoice ? 'Cambiar a modo teclado' : 'Cambiar a modo voz',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: TextButton.styleFrom(foregroundColor: AppColors.secondary),
         ),
       ],
     );

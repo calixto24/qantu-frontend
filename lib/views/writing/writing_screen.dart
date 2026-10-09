@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qantu_frontend/core/routes/app_routes.dart';
 import 'package:qantu_frontend/views/widgets/qantu_page_layout.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../answer/answer_screen.dart';
 
 class WritingScreen extends StatefulWidget {
   const WritingScreen({super.key});
@@ -24,11 +24,13 @@ class _WritingScreenState extends State<WritingScreen> {
     final pregunta = _controller.text.trim();
     if (pregunta.isEmpty) return;
 
-    // Va a la pantalla de respuesta pasando la pregunta escrita
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (_) => AnswerScreen(pregunta: pregunta)),
+      AppRoutes.answer,
+      arguments: {'pregunta': pregunta, 'isVoice': false},
     );
+
+    _controller.clear();
   }
 
   @override
@@ -37,11 +39,14 @@ class _WritingScreenState extends State<WritingScreen> {
 
     return QantuPageLayout(
       title: 'Escribir a Qantu',
+      onBackPressed: () {
+        Navigator.pushReplacementNamed(context, AppRoutes.learningMode);
+      },
       child: _buildFormulario(textTheme),
     );
   }
 
-  // Tarjeta con el campo de texto y el boton de enviar
+  // Tarjeta con el campo de texto y el botón de enviar
   Widget _buildFormulario(TextTheme textTheme) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -98,19 +103,22 @@ class _WritingScreenState extends State<WritingScreen> {
             ),
           ),
 
-          // Boton Borrar
-          TextButton(
-            onPressed: () => _controller.clear(),
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(0, 32),
-              foregroundColor: AppColors.primary,
+          // Botón Borrar
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: () => _controller.clear(),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(0, 32),
+                foregroundColor: AppColors.primary,
+              ),
+              child: const Text('Borrar', style: TextStyle(fontSize: 12)),
             ),
-            child: const Text('Borrar', style: TextStyle(fontSize: 12)),
           ),
           const SizedBox(height: 12),
 
-          // Boton Enviar (se activa solo si hay texto)
+          // Botón Enviar (se activa solo si hay texto)
           SizedBox(
             width: double.infinity,
             child: ValueListenableBuilder<TextEditingValue>(
